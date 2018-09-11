@@ -1,0 +1,6 @@
+ps -aux |grep redis
+redis-server /etc/redis/redis.conf
+cat /usr/local/var/log/gvm/openvassd.log
+#greenbone-nvt-sync
+#ospd-openvas -u /tmp/openvas.sock -L DEBUG
+ospd-openvas --log-level=debug --port=1234 --key-file=key.pem --cert-file=cert.pem --ca-file=cert.pem
