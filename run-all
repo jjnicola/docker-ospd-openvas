@@ -1,6 +1,20 @@
-ps -aux |grep redis
+# This container must be run with the next command:
+# docker run --mount type=bind,source=/tmp/certs,target=/root -p 1234:1234 -i -t docker-openvas
+#
+# Before running, the certificates must be created for example with:
+# openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -nodes -subj '/CN=localhost' -days 365
+#
+# For the given example, the certificates must be created in /tmp/certs.
+# To try the app, the certs can be copied into another machine and run:
+# echo "<get_version/>" | gnutls-cli --port=1234 --insecure --x509certfile=/tmp/certs/cert.pem --x509keyfile=/tmp/certs/key.pem <container-ip-address>
+
+### When the container is run, the following commands are executed.
+
+# Start Redis Server
 redis-server /etc/redis/redis.conf
-cat /usr/local/var/log/gvm/openvassd.log
-#greenbone-nvt-sync
-#ospd-openvas -u /tmp/openvas.sock -L DEBUG
+
+# Get feed
+greenbone-nvt-sync
+
+# Run ospd-openvas with the given certificates
 ospd-openvas --log-level=debug --port=1234 --key-file=key.pem --cert-file=cert.pem --ca-file=cert.pem

@@ -49,34 +49,35 @@ libffi-dev \
 python3-openssl \
 ca-certificates \
 -yq --no-install-recommends && \
+apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
 # Fetch and install openvas-smb
 RUN git clone https://github.com/greenbone/openvas-smb.git && \
     cd openvas-smb && \
     mkdir build && cd build && cmake .. && \
-    make && make install
+    make && make install && cd ../../ && rm -rf openvas-smb
 # Fetch and install gvm-libs
 RUN git clone https://github.com/greenbone/gvm-libs.git && \
     cd gvm-libs && \
     mkdir build && cd build && cmake ..&& \
-    make && make install
+    make && make install && cd ../../ && rm -rf gvm-libs
 # Fetch and install openvas-scanner
 RUN git clone https://github.com/greenbone/openvas-scanner.git && \
     cd openvas-scanner && \
     mkdir build && cd build && cmake ..&& \
-    make && make install
+    make && make install && cd ../../ && rm -rf openvas-scanner
 # Fetch and install ospd
 RUN pip3 install lxml && \
     git clone --depth=1 https://github.com/greenbone/ospd.git && \
     cd ospd && \
     python3 setup.py install && \
-    cd ..
+    cd .. && rm -rf ospd
 # Fetch and install ospd-openvas
 RUN git clone --depth=1 https://github.com/greenbone/ospd-openvas.git && \
     cd ospd-openvas && \
     python3 setup.py install && \
-    cd ..
+    cd .. && rm -rf ospd-openvas
 
 # Prepare some directories for redis and run ldconfig
 RUN mkdir -p /etc/redis/ && \
