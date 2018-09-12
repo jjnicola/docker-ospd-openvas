@@ -6,5 +6,8 @@ redis-server /etc/redis/redis.conf
 # Get feed
 greenbone-nvt-sync
 
-# Run ospd-openvas with the given certificates
-ospd-openvas --log-level=debug --port=1234 --key-file=key.pem --cert-file=cert.pem --ca-file=cert.pem
+## Run ospd-openvas with the given certificates:
+# ospd-openvas --log-level=debug --port=1234 --key-file=key.pem --cert-file=cert.pem --ca-file=cert.pem
+
+## Or run ospd-openvas to listen in a unix socket
+ospd-openvas -u /root/openvas.sock -L DEBUG
